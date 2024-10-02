@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Age Calculator</title>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    .container {
+      width: 100%;
+      height: 100vh;
+      background: linear-gradient(135deg, blue, skyblue);
+      display: flex;
+      flex-direction: column;
+      padding-top: 100px;
+      gap: 2rem;
+      padding-left: 100px;
+    }
+
+    span {
+      color: #34e2ce;
+    }
+
+    .main {
+      background-color: rgba(255, 255, 255, 0.3);
+      max-width: 400px;
+      width: 100%;
+      height: 100px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    input {
+      height: 45px;
+      width: 250px;
+      outline: none;
+      border: none;
+      border-radius: 3px;
+      padding: 10px;
+    }
+
+    button {
+      height: 45px;
+      width: 100px;
+      outline: none;
+      border: none;
+      border-radius: 3px;
+      background: #414141;
+      color: #fff;
+    }
+
+    p {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #2a2a2a;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        width: 100%;
+        height: 100vh;
+        background: linear-gradient(135deg, blue, skyblue);
+        display: flex;
+        flex-direction: column;
+        padding-top: 100px;
+        gap: 2rem;
+        padding-left: 20px;
+      }
+
+      .main {
+        max-width: 300px;
+        width: 100%;
+        padding: 20px;
+        gap: 1rem;
+      }
+
+      input {
+        height: 45px;
+        width: 200px;
+        outline: none;
+        border: none;
+        border-radius: 3px;
+        padding: 10px;
+      }
+    }
+  </style>
+  <body>
+    <div class="container">
+      <h1>Age <span>Calculator</span></h1>
+      <div class="main">
+        <input type="date" id="date" />
+        <button id="calculate">Calculate</button>
+      </div>
+      <p id="result"></p>
+    </div>
+
+    <script>
+      let inputBox = document.querySelector("#date");
+      let result = document.querySelector("#result");
+      let calculate = document.querySelector("#calculate");
+
+      inputBox.max = new Date().toISOString().split("T")[0];
+
+      let d3, m3, y3;
+
+      function calculateAge() {
+        let date = new Date(inputBox.value);
+        let d1 = date.getDate();
+        let m1 = date.getMonth() + 1;
+        let y1 = date.getFullYear();
+
+        let today = new Date();
+        let d2 = today.getDate();
+        let m2 = today.getMonth() + 1;
+        let y2 = today.getFullYear();
+
+        y3 = y2 - y1;
+        if (m2 >= m1) {
+          m3 = m2 - m1;
+        } else {
+          y3--;
+          m3 = 12 + m2 - m1;
+        }
+
+        if (d2 >= d1) {
+          d3 = d2 - d1;
+        } else {
+          y3--;
+          d3 = getdaysinmonths(y1, m1) + d2 - d1;
+        }
+
+        if (m3 < 0) {
+          m3 = 11;
+          y3--;
+        }
+      }
+
+      calculate.addEventListener("click", () => {
+        calculateAge();
+        result.innerHTML = `You are ${y3} years, ${m3} months and ${d3} days old`;
+      });
+      function getdaysinmonths(year, month) {
+        return new Date(year, month, 0).getDate();
+      }
+
+      //   let r = new Date();
+      //   console.log(r.getFullYear());
+    </script>
+  </body>
+</html>
